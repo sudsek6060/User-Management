@@ -23,6 +23,15 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+    age: {
+      type: Number,
+      min: 18,
+      max: 120,
+    },
+    gender: {
+      type: String,
+      enum: ["Male", "Female", "Other"],
+    },
   },
   { timestamps: true }
 );
