@@ -18,16 +18,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       require: [true, "please provide a password"],
     },
-    passwordConfirm: {
-      type: String,
-      required: [true, "please provide a password"],
-      validate: {
-        validator: function (el) {
-          return el === this.password;
-        },
-        message: "Passwords are not same",
-      },
-    },
     role: {
       type: String,
       enum: ["user", "admin"],
