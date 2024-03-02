@@ -62,3 +62,12 @@ export const deleteUser = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getUserListings = async (req, res, next) => {
+  try {
+    const listings = await User.find();
+    res.status(200).json(listings);
+  } catch (error) {
+    next(error);
+  }
+};
