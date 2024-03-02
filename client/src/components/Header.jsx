@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   logOutUserFailure,
@@ -7,6 +7,7 @@ import {
 } from "../redux/user/userSlice";
 
 const Header = () => {
+  const navigate = useNavigate();
   const { currentuser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -21,6 +22,7 @@ const Header = () => {
         return;
       }
       dispatch(logOutUserSuccess(data));
+      navigate("/logIn");
     } catch (error) {
       dispatch(logOutUserFailure(error.message));
     }
