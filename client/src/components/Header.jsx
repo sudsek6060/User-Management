@@ -1,8 +1,30 @@
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  logOutUserFailure,
+  logOutUserStart,
+  logOutUserSuccess,
+} from "../redux/user/userSlice";
 
 const Header = () => {
   const { currentuser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const handleLogOut = async () => {
+    try {
+      dispatch(logOutUserStart());
+      const res = await fetch("/api/auth/signout");
+      const data = await res.json();
+
+      if (data.success === false) {
+        dispatch(logOutUserFailure(data.message));
+        return;
+      }
+      dispatch(logOutUserSuccess(data));
+    } catch (error) {
+      dispatch(logOutUserFailure(error.message));
+    }
+  };
   return (
     <header className="bg-gradient-to-r from-gray-200 to-indigo-900 text-base sm:text-xl">
       <div className="flex justify-between items-center max-w-7xl mx-auto p-3">
@@ -31,7 +53,12 @@ const Header = () => {
           )}
 
           {currentuser ? (
-            <li className="text-stone-800 hover:underline">Log Out</li>
+            <li
+              onClick={handleLogOut}
+              className="text-stone-800 hover:underline"
+            >
+              Log Out
+            </li>
           ) : (
             <Link to="/LogIn">
               <li className="text-stone-800 hover:underline">Log In</li>
