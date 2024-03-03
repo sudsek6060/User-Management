@@ -91,7 +91,7 @@ const EditUser = () => {
   };
   return (
     <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-center font-bold text-2xl my-8">Create User</h1>
+      <h1 className="text-center font-bold text-2xl my-8">Update User</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           className="border p-3 rounded-lg"
@@ -160,7 +160,7 @@ const EditUser = () => {
           disabled={loading}
           className="bg-stone-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
         >
-          {loading ? "Loading..." : "Create "}
+          {loading ? "Loading..." : "Update "}
         </button>
       </form>
 
