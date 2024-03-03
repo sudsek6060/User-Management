@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 
-const UserCard = ({ user }) => {
+import { Link } from "react-router-dom";
+
+const UserCard = ({ user, handleDelete }) => {
   return (
     <>
       <div className="flex flex-col text-white max-w-[250px] rounded-lg p-8 bg-slate-700 ">
@@ -11,8 +13,19 @@ const UserCard = ({ user }) => {
           <p>gender :- {user.gender}</p>
         </div>
         <div className="flex justify-between mt-3">
-          <button className="bg-green-400 p-2 rounded-md">Update</button>
-          <button className="bg-red-500 p-2 rounded-md">Delete</button>
+          <Link to={`/edit-user/${user._id}`}>
+            <button className="bg-green-400 p-2 rounded-md">Update</button>
+          </Link>
+          {user.role !== "admin" ? (
+            <button
+              onClick={() => handleDelete(user._id)}
+              className="bg-red-500 p-2 rounded-md"
+            >
+              Delete
+            </button>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>
