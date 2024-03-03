@@ -45,17 +45,6 @@ const EditUser = () => {
       isValid = false;
     }
 
-    // if (!formData.password.trim()) {
-    //   newErrors.password = "Password is required";
-    //   isValid = false;
-    // } else if (formData.password.length < 8) {
-    //   newErrors.password = "Password must be at least 8 characters";
-    //   isValid = false;
-    // } else if (formData.password.length > 20) {
-    //   newErrors.password = "Password must be less than 20 characters";
-    //   isValid = false;
-    // }
-
     if (formData.age && (formData.age < 18 || formData.age > 120)) {
       newErrors.age = "Age must be between 18 and 120";
       isValid = false;
