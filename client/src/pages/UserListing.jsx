@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 const UserListing = () => {
   const [showListingErrors, setShowListingErrors] = useState(false);
   const [userListings, setUserListings] = useState([]);
-  console.log(userListings);
 
   useEffect(() => {
     const fetchUserList = async () => {
@@ -54,11 +53,13 @@ const UserListing = () => {
         <h1 className="text-gray-700 text-center font-bold text-2xl">
           User List
         </h1>
-
+        {showListingErrors && <span>{showListingErrors}</span>}
         <div className="flex flex-wrap gap-4 max-w-[90%] mx-auto">
           {userListings &&
             userListings.map((user) => (
-              <UserCard key={user.id} user={user} handleDelete={handleDelete} />
+              <div key={user.id}>
+                <UserCard user={user} handleDelete={handleDelete} />
+              </div>
             ))}
         </div>
       </div>

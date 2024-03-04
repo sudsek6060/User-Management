@@ -8,7 +8,7 @@ const EditUser = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
-  console.log(formData);
+
   useEffect(() => {
     const fetchUser = async () => {
       const userId = params.userId;
