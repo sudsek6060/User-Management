@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,6 +12,11 @@ const LogIn = () => {
   const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(logInFailure(null));
+  }, []);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -20,6 +25,13 @@ const LogIn = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { email, password } = formData;
+
+    // Check if email or password is empty
+    if (!email || !password) {
+      dispatch(logInFailure("Please provide both email and password"));
+      return;
+    }
     try {
       dispatch(logInStart());
       const res = await fetch("/api/auth/signin", {
@@ -30,7 +42,7 @@ const LogIn = () => {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log(data.role);
+
       if (data.success === false) {
         dispatch(logInFailure(data.message));
         return;

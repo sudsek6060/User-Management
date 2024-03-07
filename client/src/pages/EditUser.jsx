@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const EditUser = () => {
   const [formData, setFormData] = useState({});
+  const [userPassword, setUserPassword] = useState();
   const [error, setError] = useState(null);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -18,9 +19,11 @@ const EditUser = () => {
         console.log(data.message);
       }
       setFormData(data);
+      setUserPassword(data.password);
     };
     fetchUser();
   }, []);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -44,7 +47,15 @@ const EditUser = () => {
       newErrors.email = "Email is invalid";
       isValid = false;
     }
-
+    if (formData.password.trim() !== userPassword) {
+      if (formData.password.length < 8) {
+        newErrors.password = "Password must be at least 8 characters";
+        isValid = false;
+      } else if (formData.password.length > 20) {
+        newErrors.password = "Password must be less than 20 characters";
+        isValid = false;
+      }
+    }
     if (formData.age && (formData.age < 18 || formData.age > 120)) {
       newErrors.age = "Age must be between 18 and 120";
       isValid = false;
@@ -67,6 +78,14 @@ const EditUser = () => {
       const isValid = validateForm();
       if (isValid) {
         setLoading(true);
+
+        const newPassword = formData.password;
+        const currentPassword = userPassword;
+
+        if (newPassword === currentPassword) {
+          delete formData.password;
+        }
+        console.log(formData);
         const res = await fetch(`/api/user/update-user/${params.userId}`, {
           method: "POST",
           headers: {

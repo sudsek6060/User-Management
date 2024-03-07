@@ -57,7 +57,7 @@ const Header = () => {
           {currentuser ? (
             <li
               onClick={handleLogOut}
-              className="text-stone-800 hover:underline"
+              className="text-stone-800 hover:underline hover:cursor-pointer"
             >
               Log Out
             </li>

@@ -2,7 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CreateUser = () => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    age: "",
+    gender: "",
+  });
   const [error, setError] = useState(null);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -42,13 +48,13 @@ const CreateUser = () => {
       isValid = false;
     }
 
-    if (formData.age && (formData.age < 18 || formData.age > 120)) {
+    if (formData.age == "" && (formData.age < 18 || formData.age > 120)) {
       newErrors.age = "Age must be between 18 and 120";
       isValid = false;
     }
 
     if (
-      formData.gender &&
+      formData.gender == "" &&
       !["Male", "Female", "Other"].includes(formData.gender)
     ) {
       newErrors.gender = "Please select a valid gender";
@@ -98,7 +104,7 @@ const CreateUser = () => {
           onChange={handleChange}
         />
         {errors.username && (
-          <span className="text-red-500 mt-5">{errors.username}</span>
+          <span className="text-red-500 ">{errors.username}</span>
         )}
         <input
           className="border p-3 rounded-lg"
@@ -107,9 +113,7 @@ const CreateUser = () => {
           id="email"
           onChange={handleChange}
         />
-        {errors.email && (
-          <span className="text-red-500 mt-5">{errors.email}</span>
-        )}
+        {errors.email && <span className="text-red-500 ">{errors.email}</span>}
         <input
           className="border p-3 rounded-lg"
           type="password"
@@ -118,7 +122,7 @@ const CreateUser = () => {
           onChange={handleChange}
         />
         {errors.password && (
-          <span className="text-red-500 mt-5">{errors.password}</span>
+          <span className="text-red-500 ">{errors.password}</span>
         )}
         <input
           className="border p-3 rounded-lg"
@@ -127,7 +131,7 @@ const CreateUser = () => {
           id="age"
           onChange={handleChange}
         />
-        {errors.age && <span className="text-red-500 mt-5">{errors.age}</span>}
+        {errors.age && <span className="text-red-500 mt-2">{errors.age}</span>}
         <select
           id="gender"
           className="border p-3 rounded-lg"
@@ -147,7 +151,7 @@ const CreateUser = () => {
           </option>
         </select>
         {errors.gender && (
-          <span className="text-red-500 mt-5">{errors.gender}</span>
+          <span className="text-red-500 ">{errors.gender}</span>
         )}
         <button
           disabled={loading}
