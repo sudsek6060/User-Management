@@ -22,28 +22,36 @@ export const createUser = async (req, res, next) => {
 };
 
 export const updateUser = async (req, res, next) => {
-  const user = await User.findById(req.params.id);
-  if (!user) next(errorHandler(402, "user not found"));
-
   try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
     if (req.body.password) {
       req.body.password = bcryptjs.hashSync(req.body.password, 10);
     }
 
+    const updateFields = {};
+    for (const key of [
+      "username",
+      "email",
+      "password",
+      "age",
+      "gender",
+      "role",
+    ]) {
+      if (req.body[key]) {
+        updateFields[key] = req.body[key];
+      }
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
-      {
-        $set: {
-          username: req.body.username,
-          email: req.body.email,
-          password: req.body.password,
-          age: req.body.age,
-          gender: req.body.gender,
-          role: req.body.role,
-        },
-      },
+      { $set: updateFields },
       { new: true }
     );
+
     const { password, ...rest } = updatedUser._doc;
     res.status(200).json(rest);
   } catch (error) {
