@@ -11,10 +11,13 @@ import { verifyUserRole } from "../utils/verifyUserRole.js";
 
 const router = express.Router();
 
-router.post("/create-user", verifyUser, verifyUserRole, createUser);
-router.post("/update-user/:id", verifyUser, verifyUserRole, updateUser);
-router.delete("/delete-user/:id", verifyUser, verifyUserRole, deleteUser);
-router.get("/get-user-listings", verifyUser, verifyUserRole, getUserListings);
-router.get("/get-user/:id", verifyUser, verifyUserRole, getUser);
+router.use(verifyUser);
+router.use(verifyUserRole);
+
+router.post("/create-user", createUser);
+router.post("/update-user/:id", updateUser);
+router.delete("/delete-user/:id", deleteUser);
+router.get("/get-user-listings", getUserListings);
+router.get("/get-user/:id", getUser);
 
 export default router;
